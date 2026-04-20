@@ -6,7 +6,11 @@ export const ProtectedRoute = () => {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><Spinner size="lg" /></div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+        <Spinner size="lg" overlay />
+      </div>
+    );
   }
   
   if (!currentUser) {

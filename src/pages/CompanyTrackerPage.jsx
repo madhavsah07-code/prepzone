@@ -22,24 +22,27 @@ export const CompanyTrackerPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Target Companies</h1>
+    <div className="max-w-7xl mx-auto space-y-8 px-6 min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+      <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Target Companies</h1>
       {companies.length === 0 ? (
-        <div className="bg-white p-8 rounded-xl border border-gray-200 text-center text-gray-500 shadow-sm">
+        <div className="backdrop-blur-xl bg-white/70 border border-white/40 p-10 rounded-2xl text-center text-gray-500 shadow-lg">
           No companies tagged in your question bank yet.
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
           {companies.map(c => (
             <div
               key={c.name}
               onClick={() => handleCompanyClick(c.name)}
-              className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 cursor-pointer hover:shadow-md hover:border-blue-300 transition-all group"
+              className="group relative backdrop-blur-lg bg-white/80 border border-white/40 p-6 rounded-2xl shadow-md cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
             >
-              <h3 className="text-lg font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors">{c.name}</h3>
-              <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center text-sm">
-                <span className="font-medium text-gray-600">{c.total} {c.total === 1 ? 'Question' : 'Questions'}</span>
-                <span className="font-bold text-green-600 bg-green-50 px-2 py-1 rounded">{Math.round((c.confident / c.total) * 100)}% Mastered</span>
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition"></div>
+              <div className="relative z-10">
+                <h3 className="text-lg font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors">{c.name}</h3>
+                <div className="mt-5 pt-4 border-t border-gray-200 flex justify-between items-center text-sm">
+                  <span className="font-medium text-gray-700">{c.total} {c.total === 1 ? 'Question' : 'Questions'}</span>
+                  <span className="font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-lg shadow-sm">{Math.round((c.confident / c.total) * 100)}% Mastered</span>
+                </div>
               </div>
             </div>
           ))}

@@ -25,30 +25,52 @@ export const getLastNDays = (n) => {
 };
 
 export const calculateStreak = (datesArray) => {
-  if (!datesArray || datesArray.length === 0) return { currentStreak: 0, longestStreak: 0 };
-  const sortedDates = [...datesArray].sort((a, b) => new Date(b) - new Date(a));
-  
+  if (!datesArray || datesArray.length === 0) {
+    return { currentStreak: 0, longestStreak: 0 };
+  }
+
+  // 🔥 normalize + remove duplicates
+  const uniqueDates = [...new Set(datesArray.map(d => new Date(d).toISOString().split('T')[0]))];
+
+  // sort descending
+  const sortedDates = uniqueDates.sort((a, b) => new Date(b) - new Date(a));
+
   let currentStreak = 0;
   let longestStreak = 0;
+
   const today = new Date().toISOString().split('T')[0];
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
+  // ✅ current streak logic
   if (sortedDates[0] === today || sortedDates[0] === yesterday) {
     currentStreak = 1;
+
     for (let i = 0; i < sortedDates.length - 1; i++) {
-      if (daysBetween(sortedDates[i], sortedDates[i+1]) === 1) currentStreak++;
-      else break;
+      if (daysBetween(sortedDates[i], sortedDates[i + 1]) === 1) {
+        currentStreak++;
+      } else {
+        break;
+      }
     }
   }
 
+  // ✅ longest streak logic
   for (let i = 0; i < sortedDates.length; i++) {
     let tempStreak = 1;
+
     for (let j = i; j < sortedDates.length - 1; j++) {
-       if (daysBetween(sortedDates[j], sortedDates[j+1]) === 1) tempStreak++;
-       else break;
+      if (daysBetween(sortedDates[j], sortedDates[j + 1]) === 1) {
+        tempStreak++;
+      } else {
+        break;
+      }
     }
-    if (tempStreak > longestStreak) longestStreak = tempStreak;
+
+    longestStreak = Math.max(longestStreak, tempStreak);
   }
 
-  return { currentStreak, longestStreak: Math.max(longestStreak, currentStreak) };
+  return {
+    currentStreak,
+    longestStreak: Math.max(longestStreak, currentStreak)
+  };
 };

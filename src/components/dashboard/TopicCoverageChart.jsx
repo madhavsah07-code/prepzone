@@ -10,16 +10,25 @@ export const TopicCoverageChart = () => {
   if (data.length === 0) return <div className="text-gray-500 text-sm flex h-full items-center justify-center">No topic data available yet.</div>;
 
   return (
-    <div className="h-72 w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data}>
-          <PolarGrid stroke="#e5e7eb" />
-          <PolarAngleAxis dataKey="topic" tick={{ fill: '#4b5563', fontSize: 11, fontWeight: 500 }} />
-          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#9ca3af', fontSize: 10 }} />
-          <Radar name="Confidence %" dataKey="percent" stroke="#3b82f6" strokeWidth={2} fill="#60a5fa" fillOpacity={0.5} />
-          <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-        </RadarChart>
-      </ResponsiveContainer>
+    <div className="relative h-72 w-full backdrop-blur-xl bg-white/70 p-4 rounded-2xl border border-white/40 shadow-lg">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 pointer-events-none"></div>
+      <div className="relative z-10 h-full w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+            <defs>
+              <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#3b82f6" />
+                <stop offset="100%" stopColor="#9333ea" />
+              </linearGradient>
+            </defs>
+            <PolarGrid stroke="#d1d5db" />
+            <PolarAngleAxis dataKey="topic" tick={{ fill: '#374151', fontSize: 12, fontWeight: 600 }} />
+            <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#6b7280', fontSize: 11 }} />
+            <Radar name="Confidence %" dataKey="percent" stroke="#6366f1" strokeWidth={3} fill="url(#colorGradient)" fillOpacity={0.6} />
+            <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', backdropFilter: 'blur(10px)', background: 'rgba(255,255,255,0.8)', boxShadow: '0 8px 20px rgba(0,0,0,0.1)' }} />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
