@@ -44,12 +44,26 @@ export const GoalsPage = () => {
   };
 
   const toggleComplete = async (id, currentStatus) => {
-    await updateDoc(doc(db, `users/${currentUser.uid}/goals`, id), { completed: !currentStatus });
+    try {
+      // Using the safer, explicit path segment format for Firebase v9
+      const goalRef = doc(db, 'users', currentUser.uid, 'goals', id);
+      await updateDoc(goalRef, { completed: !currentStatus });
+    } catch (error) {
+      console.error("Error updating goal:", error);
+      toast.error('Failed to update goal');
+    }
   };
 
   const handleDelete = async (id) => {
-     await deleteDoc(doc(db, `users/${currentUser.uid}/goals`, id));
-     toast.success('Goal removed');
+    try {
+      // Using the safer, explicit path segment format
+      const goalRef = doc(db, 'users', currentUser.uid, 'goals', id);
+      await deleteDoc(goalRef);
+      toast.success('Goal removed');
+    } catch (error) {
+      console.error("Error deleting goal:", error);
+      toast.error('Failed to delete goal');
+    }
   };
 
   return (
@@ -59,17 +73,17 @@ export const GoalsPage = () => {
       <form onSubmit={handleAdd} className="backdrop-blur-xl bg-white/70 border border-white/40 p-6 rounded-2xl shadow-lg flex flex-wrap gap-5 items-end hover:shadow-xl transition">
         <div className="flex-1 min-w-[250px]">
           <label className="block text-sm font-medium text-gray-600 mb-1">Goal Description</label>
-          <input required type="text" value={newGoal.text} onChange={e => setNewGoal({...newGoal, text: e.target.value})} className="w-full border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Solve 10 Array Mediums" />
+          <input required type="text" value={newGoal.text} onChange={e => setNewGoal({ ...newGoal, text: e.target.value })} className="w-full border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Solve 10 Array Mediums" />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-1">Focus Topic</label>
-          <select value={newGoal.topic} onChange={e => setNewGoal({...newGoal, topic: e.target.value})} className="w-full border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <select value={newGoal.topic} onChange={e => setNewGoal({ ...newGoal, topic: e.target.value })} className="w-full border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
             {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-1">Target Date</label>
-          <input required type="date" value={newGoal.deadline} onChange={e => setNewGoal({...newGoal, deadline: e.target.value})} className="w-full border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          <input required type="date" value={newGoal.deadline} onChange={e => setNewGoal({ ...newGoal, deadline: e.target.value })} className="w-full border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
         </div>
         <Button type="submit" className="py-2.5">Add Goal</Button>
       </form>
