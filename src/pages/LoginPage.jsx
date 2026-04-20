@@ -7,6 +7,7 @@ export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignup, setIsSignup] = useState(false);
+
   const { currentUser, login, loginWithEmail, signup } = useAuth();
   const navigate = useNavigate();
 
@@ -21,39 +22,89 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100 px-6">
-      <div className="max-w-md w-full space-y-8 backdrop-blur-xl bg-white/70 p-10 rounded-3xl shadow-2xl border border-white/40">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-black relative overflow-hidden">
+
+      {/*  Background Glow */}
+      <div className="absolute w-[500px] h-[500px] bg-orange-500/20 rounded-full blur-[120px] top-[-100px] left-[-100px]"></div>
+      <div className="absolute w-[400px] h-[400px] bg-orange-600/20 rounded-full blur-[120px] bottom-[-100px] right-[-100px]"></div>
+
+      {/*  Card */}
+      <div className="relative z-10 max-w-md w-full space-y-8 bg-black/50 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/10">
+
+        {/*  Title */}
         <div>
-          <h2 className="mt-2 text-center text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {isSignup ? 'Create an account' : 'Welcome to PrepZone'}
+          <h2 className="text-center text-3xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+            {isSignup ? 'Create Account' : 'Welcome to PrepZone'}
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-500">Your ultimate interview prep tracker</p>
+
+          <p className="mt-2 text-center text-sm text-gray-400">
+            Your ultimate interview prep tracker
+          </p>
         </div>
+
+        {/*  Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" className="appearance-none w-full px-4 py-3 border border-gray-200 placeholder-gray-400 text-gray-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
-            </div>
-            <div>
-              <input required type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" className="appearance-none w-full px-4 py-3 border border-gray-200 placeholder-gray-400 text-gray-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
-            </div>
+          <div className="space-y-4">
+
+            <input
+              required
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Email address"
+              className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-gray-500 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+            />
+
+            <input
+              required
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-gray-500 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+            />
+
           </div>
-          <Button type="submit" className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300">{isSignup ? 'Sign Up' : 'Sign In'}</Button>
+
+          <Button type="submit" className="w-full py-3">
+            {isSignup ? 'Sign Up' : 'Sign In'}
+          </Button>
         </form>
-        <div className="mt-4 text-center">
-          <button type="button" onClick={() => setIsSignup(!isSignup)} className="text-sm font-medium text-blue-600 hover:text-purple-600 transition">
-            {isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+
+        {/*  Toggle */}
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={() => setIsSignup(!isSignup)}
+            className="text-sm text-orange-400 hover:text-orange-300 transition"
+          >
+            {isSignup
+              ? 'Already have an account? Sign in'
+              : "Don't have an account? Sign up"}
           </button>
         </div>
-        <div className="mt-8">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-            <div className="relative flex justify-center text-sm"><span className="px-3 bg-transparent text-gray-500 font-medium">Or continue with</span></div>
+
+        {/*  Divider */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-white/10" />
           </div>
-          <div className="mt-6">
-            <Button onClick={login} variant="secondary" className="w-full py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition">Sign in with Google</Button>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-3 bg-black text-gray-400">
+              Or continue with
+            </span>
           </div>
         </div>
+
+        {/*  Google Login */}
+        <Button
+          onClick={login}
+          variant="secondary"
+          className="w-full py-3"
+        >
+          Sign in with Google
+        </Button>
+
       </div>
     </div>
   );

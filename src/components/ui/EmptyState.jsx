@@ -1,30 +1,30 @@
 import Button from './Button';
 
 export const EmptyState = ({ title, description, action }) => (
-  <div className="flex flex-col items-center justify-center text-center py-16 px-6 rounded-2xl backdrop-blur-xl bg-white/70 border border-white/40 shadow-lg">
-    
+  <div className="flex flex-col items-center justify-center text-center py-16 px-6 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg">
+
+    {/*  Glow */}
+    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/10 to-orange-600/5 blur-xl opacity-20"></div>
+
     {/* Icon */}
-    <div className="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-2xl shadow-md mb-5">
+    <div className="relative z-10 w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-2xl shadow-lg mb-5">
       ⚡
     </div>
 
-    {/* Title */}
-    <h3 className="text-lg font-semibold text-gray-800">
+    {/*  Title */}
+    <h3 className="relative z-10 text-lg font-semibold text-white">
       {title}
     </h3>
 
-    {/* Description */}
-    <p className="mt-2 text-sm text-gray-500 max-w-sm">
+    {/*  Description */}
+    <p className="relative z-10 mt-2 text-sm text-gray-400 max-w-sm">
       {description}
     </p>
 
-    {/* Action Button */}
+    {/*  Action */}
     {action && (
-      <div className="mt-6">
-        <Button
-          onClick={action.onClick}
-          className="px-5 py-2.5"
-        >
+      <div className="relative z-10 mt-6">
+        <Button onClick={action.onClick}>
           {action.label}
         </Button>
       </div>

@@ -5,17 +5,20 @@ import Spinner from '../ui/Spinner';
 export const ProtectedRoute = () => {
   const { currentUser, loading } = useAuth();
 
+  //  Loading State
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
-        <Spinner size="lg" overlay />
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <Spinner size="lg" />
       </div>
     );
   }
-  
+
+  //  Not Logged In
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
 
+  //  Allowed
   return <Outlet />;
 };

@@ -1,8 +1,19 @@
 export const StatusBadge = ({ status }) => {
+
   const styles = {
-    'not-started': 'bg-gray-200 text-gray-700',
-    'attempted': 'bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-sm',
-    'confident': 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-sm'
+
+    //  Neutral
+    'not-started':
+      'bg-white/10 text-gray-400 border border-white/10',
+
+    //  In Progress
+    'attempted':
+      'bg-orange-500/10 text-orange-400 border border-orange-500/20',
+
+    //  Done
+    'confident':
+      'bg-green-500/10 text-green-400 border border-green-500/20'
+
   };
 
   const labels = {
@@ -13,11 +24,28 @@ export const StatusBadge = ({ status }) => {
 
   return (
     <span
-      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 ${styles[status]} hover:scale-105`}
+      className={`
+        inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+        backdrop-blur transition-all duration-300
+        ${styles[status]}
+        hover:scale-105
+      `}
     >
-      {/* Dot indicator */}
-      <span className="w-2 h-2 mr-2 rounded-full bg-white/80 animate-pulse"></span>
+
+      {/*  Dot */}
+      <span
+        className={`
+          w-2 h-2 mr-2 rounded-full animate-pulse
+          ${status === 'confident'
+            ? 'bg-green-400'
+            : status === 'attempted'
+            ? 'bg-orange-400'
+            : 'bg-gray-500'}
+        `}
+      />
+
       {labels[status]}
+
     </span>
   );
 };
